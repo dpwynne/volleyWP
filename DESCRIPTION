@@ -1,0 +1,17 @@
+Package: volleyWP
+Type: Package
+Title: Volleyball Win Probabilities
+Version: 0.1.0
+Authors@R: c(person("Dwight", "Wynne", role = c("aut", "cre"), email = "dwwynne@fullerton.edu"),
+          person("Chad", "Gordon", role = c("aut"))
+          )
+Maintainer: Dwight Wynne <dwwynne@fullerton.edu>
+Description: Estimate point, set, match probabilities for volleyball play-by-play data
+License: TBD
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    magrittr,
+    rlang
+RoxygenNote: 7.1.1
