@@ -1,5 +1,3 @@
-# hi dwight, test 2
-
 library(tidyverse)
 library(datavolley)
 library(classInt)
