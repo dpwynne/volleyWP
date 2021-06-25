@@ -19,7 +19,7 @@ vwp_fix_skill_codes <- function(plays){
     plays %>% 
       mutate(skill =
                case_when(
-                 skill == "Block" & lag(skill, 1) != "Attack" ~ "Attack",  # can't have a block without a preceding attack; should probably be an attack instead
+                 skill == "Block" & lag(skill, 1) != "Attack" & lead(skill, 1) != "Dig" ~ "Attack",  # can technically have a block without an attack, but this is really rare and the next skill should be a dig
                  skill == "Reception" & lag(skill, 1) != "Serve" ~ "Dig", # can't have a reception without a preceding serve; should probably be a dig instead - may be a freeball instead?
                  TRUE ~ skill # if none of these phantom issues show up, assume the skill is correctly id'd
                ) # end case_when
