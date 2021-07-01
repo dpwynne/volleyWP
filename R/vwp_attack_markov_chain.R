@@ -81,10 +81,12 @@ vwp_attack_markov_chain <- function(plays, system = TRUE){
   nc <- ncol(attack_mc)  # should be either 8 or 4
   R <- attack_mc[, c(nc-1, nc)]
   if (nr > (nc - 2)){
-    Q <- matrix(c(attack_mc[, -c(nc-1, nc)], rep(0, nr)), nrow = nr)
+    Q <- matrix(c(attack_mc[, -c(nc-1, nc)], rep(0, nr*(nr - nc + 2))), nrow = nr)
   } else {
     Q <- attack_mc[, -c(nc-1, nc)]
   }
+  
+
   N <- solve(diag(nr) - Q)
   P <- N %*% R  # should be expected PWP for each state
   
