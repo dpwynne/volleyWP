@@ -19,27 +19,37 @@
 
 
 vwp_block_front_row <- function(plays){
-  return(
-    plays %>% 
-      mutate(block_front_left =
-               case_when(  # even though we only need this for attack, we might as well grab it for all skills
-                 team == home_team ~ map2_chr(visiting_p4, opponent, vwp_player_number_to_player_name, plays = plays),  # This should work
-                 team == visiting_team ~ map2_chr(home_p4, opponent, vwp_player_number_to_player_name, plays = plays),
-                 TRUE ~ NA_character_ # we should never have this happen unless the team is NA
-               ), # end case_when for block_front_left - note that this is where they start, not where they end up in the blocking pattern
-             block_front_center =
-               case_when(
-                 team == home_team ~ map2_chr(visiting_p3, opponent, vwp_player_number_to_player_name, plays = plays),
-                 team == visiting_team ~ map2_chr(home_p3, opponent, vwp_player_number_to_player_name, plays = plays),
-                 TRUE ~ NA_character_
-               ),# end case for block_front_center
-             block_front_right =
-               case_when(
-                 team == home_team ~ map2_chr(visiting_p2, opponent, vwp_player_number_to_player_name, plays = plays),
-                 team == visiting_team ~ map2_chr(home_p2, opponent, vwp_player_number_to_player_name, plays = plays),
-                 TRUE ~ NA_character_
-               )# end case for block_front_right
-      ) # end mutate
-  )
-  # we might be able to do this faster if we don't need to convert player numbers to player names or can do that at the very end
+  if(all("visiting_p4" %in% names(plays), "home_p4" %in% names(plays))){
+    return(
+      plays %>% 
+        mutate(block_front_left =
+                 case_when(  # even though we only need this for attack, we might as well grab it for all skills
+                   team == home_team ~ map2_chr(visiting_p4, opponent, vwp_player_number_to_player_name, plays = plays),  # This should work
+                   team == visiting_team ~ map2_chr(home_p4, opponent, vwp_player_number_to_player_name, plays = plays),
+                   TRUE ~ NA_character_ # we should never have this happen unless the team is NA
+                 ), # end case_when for block_front_left - note that this is where they start, not where they end up in the blocking pattern
+               block_front_center =
+                 case_when(
+                   team == home_team ~ map2_chr(visiting_p3, opponent, vwp_player_number_to_player_name, plays = plays),
+                   team == visiting_team ~ map2_chr(home_p3, opponent, vwp_player_number_to_player_name, plays = plays),
+                   TRUE ~ NA_character_
+                 ),# end case for block_front_center
+               block_front_right =
+                 case_when(
+                   team == home_team ~ map2_chr(visiting_p2, opponent, vwp_player_number_to_player_name, plays = plays),
+                   team == visiting_team ~ map2_chr(home_p2, opponent, vwp_player_number_to_player_name, plays = plays),
+                   TRUE ~ NA_character_
+                 )# end case for block_front_right
+        ) # end mutate
+    )
+    # we might be able to do this faster if we don't need to convert player numbers to player names or can do that at the very end
+  } else {
+    return(plays %>% mutate(
+      block_front_left = "TEAM",
+      block_front_center = "TEAM",
+      block_front_right = "TEAM"
+    )
+    )
+  }
+
 }

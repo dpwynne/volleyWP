@@ -23,7 +23,8 @@ vwp_blockers <- function(plays){
                          skill %in% c("Attack", "Block") & num_players == "Hole block" ~ "seam",
                          skill %in% c("Attack", "Block") & num_players == "No block" ~ "none",
                          skill %in% c("Attack", "Block") & num_players == "Unexpected +" ~ "solo",
-                         TRUE ~ NA_character_  # if not an attack or block, no blocker code
+                         skill %in% c("Attack", "Block") & is.na(num_players) ~ "unknown",
+                         TRUE ~ "unknown"  # if not an attack or block, no blocker code - call it unknown to prevent NA issues
                        )  # end case_when
     )  # end mutate
   )  # end return
