@@ -16,7 +16,7 @@ Currently, columns 2-9 should be labeled OI, ON, OO, OW, TI, TN, TO, TW (respect
 
 \item{PWP_matrix}{an 8 x 1 matrix containing the modeled point-win probability values for each of the 8 outcomes in the same order
 as they are listed in columns 2-9 of coef_df. The idea is to take a weighted average of the point-win probability values for each type of next attack,
-with the weights being the probability of each outcome. This argument is passed directly to \ref{vwp_input_pwp}.}
+with the weights being the probability of each outcome. This argument is passed directly to `vwp_input_pwp()`.}
 }
 \value{
 A numeric vector estimating the overall point-win probability of a set of touches.

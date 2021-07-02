@@ -7,7 +7,7 @@
 vwp_input_pwp(design_matrix, coef_matrix, PWP_matrix)
 }
 \arguments{
-\item{design_matrix}{a n x p matrix where n is the number of touches to model and p is the number of features, usually computed from \ref{vwp_model_matrix}}
+\item{design_matrix}{a n x p matrix where n is the number of touches to model and p is the number of features, usually computed from `vwp_model_matrix()`.}
 
 \item{coef_matrix}{a p x 8 matrix containing the coefficients of a multinomial logistic regression model estimating the odds of each of 8 possible next attack outcomes
 (OI, ON, OO, OW, TI, TN, TO, TW in that order) where the first letter represents team or opponent result and the second letter represents

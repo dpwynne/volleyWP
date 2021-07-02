@@ -9,7 +9,7 @@ softmax <- function(x){
 #' Input point-win probability is estimated from model parameters that are available just prior to the touch (usually location, and information about the previous touch).
 #' 
 #'
-#' @param design_matrix a n x p matrix where n is the number of touches to model and p is the number of features, usually computed from \ref{vwp_model_matrix}
+#' @param design_matrix a n x p matrix where n is the number of touches to model and p is the number of features, usually computed from `vwp_model_matrix()`.
 #' @param coef_matrix a p x 8 matrix containing the coefficients of a multinomial logistic regression model estimating the odds of each of 8 possible next attack outcomes
 #' (OI, ON, OO, OW, TI, TN, TO, TW in that order) where the first letter represents team or opponent result and the second letter represents
 #' the type of attack (I = in-system, N = net play, O = out-of-system, W = win/lose point without another attack being made).
@@ -44,7 +44,7 @@ vwp_input_pwp <- function(design_matrix, coef_matrix, PWP_matrix){
 #' Currently, columns 2-9 should be labeled OI, ON, OO, OW, TI, TN, TO, TW (respectively) for best compatibility.
 #' @param PWP_matrix an 8 x 1 matrix containing the modeled point-win probability values for each of the 8 outcomes in the same order
 #' as they are listed in columns 2-9 of coef_df. The idea is to take a weighted average of the point-win probability values for each type of next attack,
-#' with the weights being the probability of each outcome. This argument is passed directly to \ref{vwp_input_pwp}.
+#' with the weights being the probability of each outcome. This argument is passed directly to `vwp_input_pwp()`.
 #'
 #' @return A numeric vector estimating the overall point-win probability of a set of touches.
 #'

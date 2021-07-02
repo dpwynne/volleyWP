@@ -31,7 +31,7 @@ for(q in 1:length(my.files)) {
 }
 
 #rename total to master and remove non-plays
-master <- subset(all_files, substring(code, 2, 2)!="P" & substring(code, 2, 2)!="p" 
+master <- subset(all_files, substring(code, 2, 2)!="P" & substring(code, 2, 2)!="p"
                  & substring(code, 2, 2)!="z" & substring(code, 2, 2)!="c"
                  & substring(code, 2, 2)!="*" & substring(code, 2, 2)!="$")
 master <- master[,c(1,2,4,6,8,10,11,12,13,14,16,19,20,21,23,24,54,55,56,57,58,59,72,73,74,75,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93)]
@@ -39,7 +39,7 @@ all_files <- NULL
 
 #create touch_id for all rows - helps w/ ability to reorder properly if I screw something up down the road
 master$id_master <- seq.int(nrow(master))
-master <- master[order(master$id_master),] 
+master <- master[order(master$id_master),]
 
 #create column for who the team making the contact is playing against
 master$opponent <- NA
@@ -64,7 +64,7 @@ master$matchscorediff <- NA
 a <- master %>% filter(team == home_team) %>% rowwise() %>% mutate(matchscorediff = sum(setscore_home1, setscore_home2, setscore_home3, setscore_home4, setscore_home5, na.rm = TRUE) - sum(setscore_away1, setscore_away2, setscore_away3, setscore_away4, setscore_away5, na.rm = TRUE))
 b <- master %>% filter(team == visiting_team) %>% rowwise() %>% mutate(matchscorediff = sum(setscore_away1, setscore_away2, setscore_away3, setscore_away4, setscore_away5, na.rm = TRUE) - sum(setscore_home1, setscore_home2, setscore_home3, setscore_home4, setscore_home5, na.rm = TRUE))
 master <- rbind(a,b)
-master <- master[order(master$id_master),] 
+master <- master[order(master$id_master),]
 
 #create column as a count (for the denomenator for most equations)
 master$count <- 1
@@ -268,7 +268,7 @@ master$set_from <- ifelse(master$add_cover %in% c("Reception", "Dig", "Cover", "
 
 #create what type of attack follows the first touch (attack code starts w/ V or not)
 master$attack_type <- NA
-master$attack_type <- ifelse(master$add_cover %in% c("Reception", "Dig", "Cover", "Freeball") & lead(master$team, 1)==master$team & lead(master$team,2)==master$team & lead(master$add_cover,1)=="Set", 
+master$attack_type <- ifelse(master$add_cover %in% c("Reception", "Dig", "Cover", "Freeball") & lead(master$team, 1)==master$team & lead(master$team,2)==master$team & lead(master$add_cover,1)=="Set",
                              substr(lead(master$attack_code,2),1,1), master$attack_type)
 
 master$in_or_oos <- NA
@@ -281,7 +281,7 @@ master$attack_type <- NULL
 master$set_id <- paste0(master$match_id, "- Set ", master$set_number)
 
 #create if team won the set overall
-master <- master[order(master$id_master),] 
+master <- master[order(master$id_master),]
 
 master$who_won_set <- NA
 master$who_lost_set <- NA
@@ -335,7 +335,7 @@ master$kcode <- ifelse((master$skill %in% c("Reception", "Dig", "Freeball") & !i
                          (master$skill == "Set" & !is.na(master$set_code)), "yes", "no")
 
 master$id_master <- seq.int(nrow(master))
-master <- master[order(master$id_master),] 
+master <- master[order(master$id_master),]
 
 
 
