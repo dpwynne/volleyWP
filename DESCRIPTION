@@ -1,7 +1,7 @@
 Package: volleyWP
 Type: Package
 Title: Volleyball Win Probabilities
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(person("Dwight", "Wynne", role = c("aut", "cre"), email = "dwwynne@fullerton.edu"),
           person("Chad", "Gordon", role = c("aut"))
           )
@@ -17,5 +17,6 @@ Imports:
     rlang,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    VGAM
 RoxygenNote: 7.1.1

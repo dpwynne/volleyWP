@@ -9,7 +9,7 @@ softmax <- function(x){
 #' Input point-win probability is estimated from model parameters that are available just prior to the touch (usually location, and information about the previous touch).
 #' 
 #'
-#' @param design_matrix a n x p matrix where n is the number of touches to model and p is the number of features, usually computed from \ref{vwp_model_matrix}
+#' @param design_matrix a n x p matrix where n is the number of touches to model and p is the number of features, usually computed from `vwp_model_matrix()`.
 #' @param coef_matrix a p x 8 matrix containing the coefficients of a multinomial logistic regression model estimating the odds of each of 8 possible next attack outcomes
 #' (OI, ON, OO, OW, TI, TN, TO, TW in that order) where the first letter represents team or opponent result and the second letter represents
 #' the type of attack (I = in-system, N = net play, O = out-of-system, W = win/lose point without another attack being made).
@@ -44,7 +44,7 @@ vwp_input_pwp <- function(design_matrix, coef_matrix, PWP_matrix){
 #' Currently, columns 2-9 should be labeled OI, ON, OO, OW, TI, TN, TO, TW (respectively) for best compatibility.
 #' @param PWP_matrix an 8 x 1 matrix containing the modeled point-win probability values for each of the 8 outcomes in the same order
 #' as they are listed in columns 2-9 of coef_df. The idea is to take a weighted average of the point-win probability values for each type of next attack,
-#' with the weights being the probability of each outcome. This argument is passed directly to \ref{vwp_input_pwp}.
+#' with the weights being the probability of each outcome. This argument is passed directly to `vwp_input_pwp()`.
 #'
 #' @return A numeric vector estimating the overall point-win probability of a set of touches.
 #'
@@ -87,7 +87,7 @@ vwp_compute_pwp <- function(plays, PWP, coef_matrices){
   
   # Step 1: set up all the features we need
   vbID <- plays %>%
-    filter(skill %in% c("Serve", "Reception", "Set", "Attack", "Block", "Dig", "Freeball"))  # get rid of substitutions, timeouts, and NA skills
+    filter(skill %in% c("Serve", "Reception", "Set", "Attack", "Block", "Dig", "Freeball")) %>%  # get rid of substitutions, timeouts, and NA skills
     mutate(id = seq(1, nrow(plays))) %>%  # add an ID column - very important for splitting and recombining 
     vwp_add_cover() %>% # add cover
     vwp_kcode() %>% # add system via kcode
@@ -123,12 +123,12 @@ vwp_compute_pwp <- function(plays, PWP, coef_matrices){
   vb_skills <- bind_rows(vb_net_attacks, vb_system_attacks, (vb_digs %>% select(-distance)), vb_sets, vb_serves, vb_freeballs) %>% select(id, input_pwp)
 
   # have to think about this later - people delete columns from their dv files   
-  vb_pwp <- left_join(vbID, vb_skills, by = "id") %>% select(id, team, opponent, match_id, point_id, video_time, player_name,
-                                                             skill, skill_type, evaluation_code, evaluation, attack_code, set_code,
-                                                             start_zone, end_zone, end_subzone, skill_subtype, num_players, set_number,
-                                                             #home_p2, home_p3, home_p4, visiting_p2, visiting_p3, visiting_p4,
-                                                             team_touch_id, home_team, visiting_team, point_won_by, add_cover, serving_team, phase,
-                                                             blockers, system, attack_next, attack_start_zone, set_zone, block_touched, attack_type, time_to_touch, input_pwp)
+  vb_pwp <- left_join(vbID, vb_skills, by = "id") #%>% select(id, team, opponent, match_id, point_id, video_time, player_name,
+                                                  #           skill, skill_type, evaluation_code, evaluation, attack_code, set_code,
+                                                  #           start_zone, end_zone, end_subzone, skill_subtype, num_players, set_number,
+                                                  #           #home_p2, home_p3, home_p4, visiting_p2, visiting_p3, visiting_p4,
+                                                  #           team_touch_id, home_team, visiting_team, point_won_by, add_cover, serving_team, phase,
+                                                  #           blockers, system, attack_next, attack_start_zone, set_zone, block_touched, attack_type, time_to_touch, input_pwp)
   
   # Step 5: get output point-win-probability
   vb_pwp2 <- vb_pwp %>% filter(!(skill %in% c("Block", "Reception"))) %>%
