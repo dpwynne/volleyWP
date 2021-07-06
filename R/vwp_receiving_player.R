@@ -23,8 +23,8 @@ vwp_receiving_player <- function(plays){
                case_when(
                  skill == "Serve" & lead(skill, 1) == "Reception" ~ lead(player_name, 1),  # player who receives the serve
                  skill == "Serve" & (is.na(lead(skill, 1)) | lead(skill, 1) != "Reception") ~ "TEAM",  # team in general gets credited with aces/errors that are not touched/assigned to player
-                 skill %in% c("Set", "Freeball") & evaluation == "Error" ~ "TEAM", # also give generic "TEAM" credit for ball-handling errors and freeball errors - unforced errors resulting in point for team 
-                 TRUE ~ NA_character_ # if not a serve, this column should be NA
+                 skill %in% c("Set", "Freeball") & evaluation == "Error" ~ "TEAM", # also give generic "TEAM" credit for ball-handling errors and freeball errors - unforced errors resulting in point for team
+                 TRUE ~ NA_character_ # if not a serve or unforced error, NA
                ) # end case_when
       ) # end mutate
   )  # end return
