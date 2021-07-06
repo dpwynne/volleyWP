@@ -32,7 +32,8 @@ vwp_zone_distance <- function(plays){
                                             (start_zone %in% c(2,4) & end_zone == 6) | ((start_zone == 3 | is.na(start_zone)) & end_zone %in% c(1,5)) ~ sqrt(7.5^2 + 3^2),
                                             (start_zone == 4 & end_zone == 2) | (start_zone == 2 & end_zone == 4) ~ sqrt(1.5^2 + 6^2),
                                             (start_zone == 4 & end_zone == 9) | (start_zone == 2 & end_zone == 7) ~ sqrt(4.5^2 + 6^2),
-                                            (start_zone == 4 & end_zone == 1) | (start_zone == 2 & end_zone == 5) ~ sqrt(7.5^2 + 6^2)
+                                            (start_zone == 4 & end_zone == 1) | (start_zone == 2 & end_zone == 5) ~ sqrt(7.5^2 + 6^2),
+                                            TRUE ~ 4.5 # if somehow the block was off the net just assign it 4.5
                                           ), # end case_when #1 - cover dig                 
                                           case_when(  # case_when #2 - regular dig
                                             (start_zone == 4 & end_zone == 2) | ((start_zone == 3 | is.na(start_zone)) & end_zone == 3) | (start_zone == 2 & end_zone == 4) ~ 1.5,
@@ -52,7 +53,8 @@ vwp_zone_distance <- function(plays){
                                             (start_zone == 7 & end_zone == 5) | (start_zone == 9 & end_zone == 1) | (start_zone == 5 & end_zone == 7) | (start_zone == 1 & end_zone == 9) ~ sqrt(10.5^2 + 6^2),
                                             (start_zone == 5 & end_zone == 1) | (start_zone == 6 & end_zone == 6) | (start_zone == 1 & end_zone == 5) ~ 13.5,
                                             (start_zone %in% c(1,5) & end_zone == 6) | (start_zone == 6 & end_zone %in% c(1,5)) ~ sqrt(13.5^2 + 3^2),
-                                            (start_zone == 5 & end_zone == 5) | (start_zone == 1 & end_zone == 1) ~ sqrt(13.5^2 + 6^2)
+                                            (start_zone == 5 & end_zone == 5) | (start_zone == 1 & end_zone == 1) ~ sqrt(13.5^2 + 6^2),
+            
                                           )  # end case_when #2 - regular dig case
       ) # end if_else
       ) # end mutate
