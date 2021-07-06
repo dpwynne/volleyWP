@@ -21,7 +21,14 @@ vwp_add_cover <- function(plays){
   )
   return(covered %>% mutate(
     start_zone = if_else(
-      add_cover, 6 - lag(end_zone, 1), start_zone  # if a cover, change the start zone to the "end zone" of the block  
+      add_cover, 
+      case_when(
+        lag(end_zone, 1) %in% c(2, 9, 1) ~ 2,
+        lag(end_zone, 1) %in% c(3, 8, 6) ~ 3,
+        lag(end_zone, 1) %in% c(4, 7, 5) ~ 4,
+        TRUE ~ 3
+      ),  # assume that all blocks are on the net, even if they get called as off
+      start_zone  # if a cover, change the start zone to the "end zone" of the block  
     )
   ))
 }
