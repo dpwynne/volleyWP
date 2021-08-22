@@ -28,11 +28,13 @@ vwp_attack_start_zone <- function(plays){
              ) %>% # end mutate #1
       mutate(attack_start_zone =
                case_when(
-                 attack_start_zone_numeric %in% c(1, 5, 6) ~ "Back Row",  # group everything from the far back
-                 attack_start_zone_numeric %in% c(2, 3, 4, 7, 8, 9) ~ paste("Zone", attack_start_zone_numeric),
+                 attack_start_zone_numeric %in% c(1, 9) ~ "Back Right",  # group back row attacks by left-right location
+                 attack_start_zone_numeric %in% c(6, 8) ~ "Back Center",
+                 attack_start_zone_numeric %in% c(5, 7) ~ "Back Left",
+                 attack_start_zone_numeric %in% c(2, 3, 4) ~ paste("Zone", attack_start_zone_numeric),
                  TRUE ~ NA_character_
                )
-            ) %>% # end mutate #2
+      ) %>% # end mutate #2
       select(-attack_start_zone_numeric)
   )  # end return
 }
