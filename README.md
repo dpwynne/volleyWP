@@ -10,10 +10,10 @@ A win probability for volleyball matches. The basic framework is as follows:
 
 4. A multinomial regression model is built to estimate the probability of each possible next-attack outcome (OI = Opponent In-System; ON = Opponent Transition Net Play; OO = Opponent Out-of-System; OW = Opponent Wins without another attack; TI, TN, TO, TW are the same for the touching team) for each attack, dig, and set. Current predictors in the model:
 
-- Overpasses/Net Play Attacks: system (in-system, out of system, transition net play, reception overpass), number of blockers (double, none, seam, solo, triple, unknown), attack_start_zone (zones 1, 5, and 6 are lumped together as "Back Row", otherwise as normal for a 9-zone division of the half-court).
-- Attacks off Sets: the same as for overpasses/net play attacks but including the zone from which the set was set (Zones 1-9 recoded as B/M/F (Back/Middle/Front) and L/C/R (Left/Center/Right) and "UN" for unknown zone)
-- Sets: system and set zone as defined in the attack models
-- Digs: whether the attack was touched on a block (Yes = 1, No = 0), attack type (Hard spike vs. Offspeed), time from previous touch (estimated based on video time), estimated court distance the ball traveled from the attack/block to the digging player (estimated based on start and end zones)
+- Overpasses/Net Play Attacks: system (in-system, out of system, transition net play, reception overpass), number of blockers (double, none, seam, solo, triple, unknown), attack_start_zone (as normal for a 6-zone division of the half-court, e.g., Zone 1 and Zone 9 are combined as "Back Right").
+- Attacks off Sets: the same as for overpasses/net play attacks but including a transformed location of the set. set_x is defined as the side-to-side distance between the location of the set and the middle third of the court (0 if the set is in a central zone). set_y is defined as the distance of the setter behind the 10-foot/3-meter line (0 if the ball is passed in front of the line). All sets from Zone 3 have set_x = 0 and set_y = 0.
+- Sets: transformed set location as defined in the attack models and whether the player setting was a setter.
+- Digs: whether the attack was touched on a block (Yes = 1, No = 0), attack type (Hard spike vs. Offspeed), time from previous touch (estimated based on video time), estimated court distance the ball traveled from the attack/block to the digging player, whether the digging player was a setter in that rotation (in women's collegiate volleyball, a common strategy is "if the set isn't perfect, aim the ball over the block at the setter").
 
 It is important to note here that the only features we include are known immediately prior to the ball being touched; that is, our features are based on a discussion of "What makes this attack/set/dig more or less likely to be successful?".
 
@@ -40,5 +40,5 @@ Stuff still to do:
 2. Include team and opponent ratings (of some kind) in the models used to estimate the attack values. Thus, not hard-coding the PWP matrix and allowing this to be different for each team.
 3. Same as #2, but for the multinomial regression models and add multinomial regression models for freeball and serve based on team/opponent ratings.
 4. Convert set/match point win probabilities using functions in volleysim package. (May have to duplicate this if they're hidden functions)
-5. Write function to remove block/reception and parcel out individual player values to the preceding attack/serve. This will remove some weird edge cases that (hopefully) shouldn't mess with the values too much.
+5. Write function to remove block/reception and parcel out individual player values to the preceding attack/serve. This will remove some weird edge cases that (hopefully) shouldn't mess with the values too much. (Typically these edge cases happen when two players are each credited with a block or reception.)
 6. Write vignette giving example workflow.
