@@ -23,28 +23,28 @@ vwp_dig_distance <- function(plays){
       start_zone %in% c(1, 2, 9) ~ 3,
       start_zone %in% c(3, 6, 8) ~ 2,
       start_zone %in% c(4, 5, 7) ~ 1,
-      is.na(start_zone) ~ NA_real_
+      is.na(start_zone) ~ 2 # for now assume front center to middle-center
     ),
     dig_attack_y = case_when(
       !is.na(start_coordinate_y) ~ start_coordinate_y,
       start_zone %in% c(2, 3, 4) ~ 4,
       start_zone %in% c(7, 8, 9) ~ 5,
       start_zone %in% c(1, 5, 6) ~ 6,
-      is.na(start_zone) ~ NA_real_
+      is.na(start_zone) ~ 4 # for now assume front center to middle-center
     ),
     dig_x = case_when(
       !is.na(end_coordinate_x) ~ end_coordinate_x,
       end_zone %in% c(1, 2, 9) ~ 3,
       end_zone %in% c(3, 6, 8) ~ 2,
       end_zone %in% c(4, 5, 7) ~ 1,
-      is.na(end_zone) ~ NA_real_    
+      is.na(end_zone) ~ 2 # for now assume front center to middle-center
     ),
     dig_y = case_when(
       !is.na(end_coordinate_y) ~ end_coordinate_y,
       end_zone %in% c(2, 3, 4) ~ 3,
       end_zone %in% c(7, 8, 9) ~ 2,
       end_zone %in% c(1, 5, 6) ~ 1,
-      is.na(end_zone) ~ NA_real_
+      is.na(end_zone) ~ 2 # for now assume front-center to middle-center
     )
   ) %>% mutate(
     dig_x = case_when(
