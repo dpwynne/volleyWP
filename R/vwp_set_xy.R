@@ -18,18 +18,22 @@ vwp_set_xy <- function(plays){
   return(
     plays %>% mutate(
       set_zone_x = case_when(
-        skill == "Attack" & lag(skill, 1) == "Set" ~ lag(start_coordinate_x, 1),
-        skill == "Set" ~ start_coordinate_x,
+        skill == "Attack" & lag(skill, 1) == "Set" & !is.na(lag(start_coordinate_x, 1)) ~ lag(start_coordinate_x, 1),
+        skill == "Attack" & lag(skill, 1) == "Set" & is.na(lag(start_coordinate_x, 1)) ~ (vwp_zone_to_xy(lag(start_zone, 1)))$x,
+        skill == "Set" & !is.na(start_coordinate_x) ~ start_coordinate_x,
+        skill == "Set" & is.na(start_coordinate_x) ~ (vwp_zone_to_xy(start_zone))$x,
         TRUE ~ NA_real_
       ),  # end case_when
       set_zone_y = case_when(
-        skill == "Attack" & lag(skill, 1) == "Set" ~ lag(start_coordinate_y, 1),
-        skill == "Set" ~ start_coordinate_y,
+        skill == "Attack" & lag(skill, 1) == "Set" & !is.na(lag(start_coordinate_y, 1)) ~ lag(start_coordinate_y, 1),
+        skill == "Attack" & lag(skill, 1) == "Set" & is.na(lag(start_coordinate_y, 1)) ~ (vwp_zone_to_xy(lag(start_zone, 1)))$y,
+        skill == "Set" & !is.na(start_coordinate_y) ~ start_coordinate_y,
+        skill == "Set" & is.na(start_coordinate_y) ~ (vwp_zone_to_xy(start_zone))$y,
         TRUE ~ NA_real_
       )
     ) %>%  # end mutate #1
-      mutate(set_x = if_else(set_zone_x <= 2.5 & set_zone_x >= 2, 0, pmin(abs(set_zone_x - 2.5), abs(set_zone_x - 2))),
-             set_y = if_else(set_zone_y <= 3.5 & set_zone_y >= 3, 0, pmin(abs(set_zone_y - 3.5), abs(set_zone_y - 3))) 
+      mutate(set_x = if_else(set_zone_x <= 2.5 & set_zone_x >= 1.5, 0, pmin(abs(set_zone_x - 2.5), abs(set_zone_x - 1.5))),
+             set_y = if_else(set_zone_y <= 3.5 & set_zone_y >= 2.5, 0, pmin(abs(set_zone_y - 3.5), abs(set_zone_y - 2.5))) 
       ) %>% # end mutate #2
       select(-set_zone_x, -set_zone_y)
   )
